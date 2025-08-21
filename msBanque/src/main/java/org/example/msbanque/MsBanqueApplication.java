@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -18,8 +19,9 @@ public class MsBanqueApplication {
         SpringApplication.run(MsBanqueApplication.class, args);
     }
     @Bean
-    CommandLineRunner start(CompteRepository compteRepository){
+    CommandLineRunner start(CompteRepository compteRepository, RepositoryRestConfiguration restConfiguration){
         return args -> {
+            restConfiguration.exposeIdsFor(Compte.class); // pour afficher l'id
             compteRepository.save(new Compte(null,Math.random()*9000,new Date(), typeCompte.COURANT));
             compteRepository.save(new Compte(null,Math.random()*8647,new Date(), typeCompte.EPARGNE));
             compteRepository.save(new Compte(null,Math.random()*10988,new Date(), typeCompte.COURANT));
